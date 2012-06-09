@@ -65,6 +65,18 @@ OAuth::Consumer.class_eval do
 end
 
 OAuth::AccessToken.class_eval do
+
+  def post_with_multipart(*args)
+    uri,headers,options = args
+    if headers && headers.find{|key,value| value.is_a?(UploadIO) }
+      multipart_post *args
+    else
+      post_without_multipart(*args)
+    end
+  end
+
+  alias_method_chain :post,:multipart
+
   def multipart_post(*args)
     request(:multipart_post,*args)
   end
