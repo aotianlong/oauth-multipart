@@ -1,6 +1,8 @@
 module OauthMultipart
 end
 
+require "oauth"
+
 OAuth::Consumer.class_eval do
   def create_http_request_with_multipart(http_method, path, *arguments)
     http_method = http_method.to_sym
